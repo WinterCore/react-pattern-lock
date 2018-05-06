@@ -1,4 +1,4 @@
-const path = require("path");
+const path    = require("path");
 
 module.exports = {
 	entry     : "./src/index.js",
@@ -8,6 +8,12 @@ module.exports = {
 			commonjs2 : "react",
 			amd       : "react",
 			root      : "React"
+		},
+		"prop-types" : {
+			commonjs  : "prop-types",
+			commonjs2 : "prop-types",
+			amd       : "prop-types",
+			root      : "PropTypes"
 		}
 	},
 	module : {
@@ -26,7 +32,7 @@ module.exports = {
 	output : {
 		path          : path.join(__dirname, "dist"),
 		filename      : "index.js",
-		library       : "PatternLock",
+		library       : "TextTransition",
 		libraryTarget : "umd"
 	}
 };
