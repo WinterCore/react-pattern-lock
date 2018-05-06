@@ -49,7 +49,7 @@ for example :
 in a 3x3 pattern
 the points are numbered starting from 0 top left, and ending in 8 bottom right.
 
-![text-transition](examples/representation.JPG)
+![text-transition](examples/representation.jpg)
 
 So for example :
 
@@ -79,7 +79,7 @@ This property is used to set the height of the pattern lock's wrapper (to make a
 #### <a name="prop-disabled"></a> disabled ```Boolean``` *default : false*
 Makes the pattern input disabled (turns gray and user input is disabled).
 
-![text-transition](examples/disabled.JPG)
+![text-transition](examples/disabled.jpg)
 
 #### <a name="prop-invisible"></a> invisible ```Boolean``` *default : false*
 Hides the lines that connect the pattern points.
@@ -124,7 +124,7 @@ When the cursor enters this area the point will be activated.
 
 Activate areas are indicated by the blue squares.
 
-![text-transition](examples/active-area.JPG)
+![text-transition](examples/active-area.jpg)
 
 
 # License
