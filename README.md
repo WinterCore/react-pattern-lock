@@ -39,8 +39,8 @@ import PatternLock          from "react-pattern-lock";
 | errorColor | String | #F00 | The color used to indicate whenever a wrong pattern was drawn. |
 | pointColor | String | #FFF | The color of the pattern points. |
 | pointSize | Number | 10 | The size of the pattern points (used for width and height) in pixels. |
-| [pointActiveSize](#prop-pointActiveSize) | Number | 30 | The size of the active area of the pattern points. |
-| connectorWidth | Number | 2 | The thickness of the lines that connect the points. |
+| [pointActiveSize](#prop-pointActiveSize) | Number | 30 | The size (in pixels) of the active area of the pattern points. |
+| connectorWidth | Number | 2 | The thickness (in pixels) of the lines that connect the points. |
 | connectorColor | String | #FFF | The color of the lines that connect the points. |
 | className | String | | Any css classes that you might want to send to the wrapper. |
 | style | Object | {} | Any css styles that you might want to send to the wrapper. |
@@ -59,7 +59,7 @@ So for example :
 
 ![text-transition](examples/output-example.gif)
 
-This would result in an array like this ```[1, 3, 4, 0]```
+This would result in an array like this ```[1, 3, 4, 0]```.
 
 ----
 
@@ -78,7 +78,7 @@ The width of the pattern input's wrapper.
 Is the same as css's width property.  
 eg : "100em", "100%".  
 If the provided value had no unit, it will be considered as pixels.
-This property is used to set the height of the pattern lock's wrapper (to make a square).
+This property is used to set the height of the pattern input's wrapper (to make a square).
 
 #### <a name="prop-disabled"></a> disabled ```Boolean``` *default : false*
 Makes the pattern input disabled (turns gray and user input is disabled).
