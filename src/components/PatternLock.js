@@ -194,6 +194,7 @@ class PatternLock extends PureComponent {
 
 	checkJumping(prev, next) {
 		const { size } = this.props;
+		const { path } = this.state;
 
 		const x1 = prev % size;
 		const y1 = Math.floor(prev / size);
@@ -207,7 +208,8 @@ class PatternLock extends PureComponent {
 				const points = [];
 				const min = Math.min(x1, x2);
 				for (let i = 1; i < xDifference; i += 1) {
-					points.push((y1 * size) + i + min);
+					const point = (y1 * size) + i + min;
+					if (path.indexOf(point) === -1) points.push(point);
 				}
 				return points;
 			}
@@ -217,7 +219,8 @@ class PatternLock extends PureComponent {
 				const points = [];
 				const min = Math.min(y1, y2);
 				for (let i = 1; i < yDifference; i += 1) {
-					points.push(((i + min) * size) + x1);
+					const point = ((i + min) * size) + x1;
+					if (path.indexOf(point) === -1) points.push(point);
 				}
 				return points;
 			}
@@ -229,8 +232,8 @@ class PatternLock extends PureComponent {
 				const dirY = y2 - y1 > 0 ? 1 : -1;
 				const points = [];
 				for (let i = 1; i < yDifference; i += 1) {
-					points.push((((i * dirY) + y1) * size) // Y
-					+ (i * dirX) + x1); // X
+					const point = (((i * dirY) + y1) * size) + (i * dirX) + x1;
+					if (path.indexOf(point) === -1) points.push(point);
 				}
 				return points;
 			}
