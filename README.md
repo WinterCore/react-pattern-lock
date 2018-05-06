@@ -27,15 +27,15 @@ import PatternLock          from "react-pattern-lock";
 | Prop | Type | Default | Definition |
 | --- | --- | --- | --- |
 | [size](#prop-size) | Number | Required | The size of the pattern input. |
-| [width](#width) | Number, String | Required | The width of the pattern wrapper. |
-| [disabled](#disabled) | Boolean | false | Disables the pattern input. |
-| [invisible](#invisible) | Boolean | false | Makes the lines that connect the points invisible. |
-| [noPop](#noPop) | Boolean | false | Disables the pop animation when a point gets activated. |
-| [onChange](#onChange) | Function | () => Promise.resolve() | A function that returns a Promise, the promise should resolve if the pattern was correct and reject otherwise. |
+| [width](#prop-width) | Number, String | Required | The width of the pattern wrapper. |
+| [disabled](#prop-disabled) | Boolean | false | Disables the pattern input. |
+| [invisible](#prop-invisible) | Boolean | false | Makes the lines that connect the points invisible. |
+| [noPop](#prop-noPop) | Boolean | false | Disables the pop animation when a point gets activated. |
+| [onChange](#prop-onChange) | Function | () => Promise.resolve() | A function that returns a Promise, the promise should resolve if the pattern was correct and reject otherwise. |
 | errorColor | String | #F00 | The color used to indicate whenever a wrong pattern was drawn. |
 | pointColor | String | #FFF | The color of the pattern points. |
 | pointSize | Number | 10 | The size of the pattern points (used for width and height) in pixels. |
-| [pointActiveSize](#pointActiveSize) | Number | 30 | The size of the active area of the pattern points. |
+| [pointActiveSize](#prop-pointActiveSize) | Number | 30 | The size of the active area of the pattern points. |
 | connectorWidth | Number | 2 | The thickness of the lines that connect the points. |
 | connectorColor | String | #FFF | The color of the lines that connect the points. |
 | className | String | | Any css classes that you might want to send to the wrapper. |
