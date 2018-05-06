@@ -86,7 +86,6 @@ class PatternLock extends PureComponent {
 		this.onHold    = this.onHold.bind(this);
 		this.onRelease = this.onRelease.bind(this);
 		this.onMove    = this.onMove.bind(this);
-		this.onResize  = this.onResize.bind(this);
 
 		this.left = 0;
 		this.top  = 0;
@@ -94,9 +93,6 @@ class PatternLock extends PureComponent {
 
 	componentDidMount() {
 		this.updateHeight();
-		window.addEventListener("resize", this.onResize);
-		window.addEventListener("scroll", this.onResize);
-
 		window.addEventListener("mouseup", this.onRelease);
 		window.addEventListener("touchend", this.onRelease);
 	}
@@ -104,19 +100,13 @@ class PatternLock extends PureComponent {
 	componentWillUnmount() {
 		clearTimeout(this.unerrorTimeout);
 
-		window.removeEventListener("resize", this.onResize);
-		window.removeEventListener("scroll", this.onResize);
-
 		window.removeEventListener("mouseup", this.onRelease);
 		window.removeEventListener("touchend", this.onRelease);
 	}
 
-	onResize() {
-		this.updateProperties();
-	}
-
 	onHold(evt) {
 		if (!this.isDisabled) {
+			this.updateProperties();
 			this.wrapper.addEventListener("mousemove", this.onMove);
 			this.wrapper.addEventListener("touchmove", this.onMove);
 			this.reset();
