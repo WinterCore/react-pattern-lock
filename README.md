@@ -30,7 +30,7 @@ import PatternLock          from "react-pattern-lock";
 ### Props
 | Prop | Type | Default | Definition |
 | --- | --- | --- | --- |
-| [size](#prop-size) | Number | Required | The size of the pattern input. |
+| [size](#prop-size) | Number | 3 | The size of the pattern input. |
 | [width](#prop-width) | Number, String | Required | The width of the pattern wrapper. |
 | [disabled](#prop-disabled) | Boolean | false | Disables the pattern input. |
 | [invisible](#prop-invisible) | Boolean | false | Makes the lines that connect the points invisible. |
@@ -65,7 +65,7 @@ This would result in an array like this ```[1, 3, 4, 0]```.
 
 ### Detailed Props
 
-#### <a name="prop-size"></a> size ```Number``` *REQUIRED*
+#### <a name="prop-size"></a> size ```Number``` *default : 3*
 The size of the pattern input
 * 3 is 3x3 (9 points in total).
 * 4 is 4x4 (16 points in total).
