@@ -2,7 +2,7 @@
   "name": "react-pattern-lock",
   "version": "0.1.1",
   "description": "Android's 3x3 pattern lock",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
     "build": "webpack --progress --mode production",
     "dev": "webpack --watch --progress --mode development",
