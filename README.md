@@ -4,6 +4,8 @@
 * Supports touch screens.
 * Many options to customize the input.
 
+[![Edit n5j7knjo54](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/n5j7knjo54)
+
 ## Installation
 ```npm install react-pattern-lock```
 ## How to use

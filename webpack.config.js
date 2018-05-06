@@ -16,7 +16,7 @@ module.exports = {
 			root      : "PropTypes"
 		}
 	},
-	module : {
+	module  : {
 		rules : [
 			{
 				test    : /\.jsx?$/,
