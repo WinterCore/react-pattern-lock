@@ -1,6 +1,8 @@
 # React-Pattern-Lock
 ### Android's pattern lock
-* Supports multiple sizes. eg : 2x2, 3x3, 4x4 -- 15x15
+* Supports multiple sizes. eg : 2x2, 3x3, 4x4 -- 15x15.
+* Supports touch screens.
+* Many options to customize the input.
 
 ## Installation
 ```npm install react-pattern-lock```
