@@ -35,7 +35,8 @@ import PatternLock          from "react-pattern-lock";
 | [disabled](#prop-disabled) | Boolean | false | Disables the pattern input. |
 | [invisible](#prop-invisible) | Boolean | false | Makes the lines that connect the points invisible. |
 | [noPop](#prop-noPop) | Boolean | false | Disables the pop animation when a point gets activated. |
-| [onChange](#prop-onChange) | Function | () => Promise.resolve() | A function that returns a Promise, the promise should resolve if the pattern was correct and reject otherwise. |
+| [onChange](#prop-onChange) | Function | (pattern) => Promise.resolve() | A function that returns a Promise, the promise should resolve if the pattern was correct and reject otherwise. |
+| onDotConnect | Function | (i) => {} | A function that gets executed each time a point gets activated (will receive the point's index as the first argument). |
 | errorColor | String | #F00 | The color used to indicate whenever a wrong pattern was drawn. |
 | [allowJumping](#prop-allowJumping) | Boolean | false | Setting this to true would disable the auto activation on points that are in the middle of 2 already activated points (see details below). |
 | allowOverlapping | Boolean | false | Allows you to select the same point multiple times (Doesn't show the pop animation on the second time). |
