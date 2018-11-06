@@ -86,7 +86,7 @@ This property is used to set the height of the pattern input's wrapper (to make 
 #### <a name="prop-allowJumping"></a> allowJumping ```Boolean``` *default : false*
 Setting this property to true would allow you to connect 2 points that have unselected points between them (diagonally, vertically or horizontally) without the points in the middle being auto selected for you (see image below).
 
-![text-transition](examples/allow-jumping.png)
+![text-transition](examples/allow-jumping.PNG)
 
 #### <a name="prop-disabled"></a> disabled ```Boolean``` *default : false*
 Makes the pattern input disabled (turns gray and user input is disabled).
