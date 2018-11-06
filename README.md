@@ -56,11 +56,11 @@ for example :
 in a 3x3 pattern
 the points are numbered starting from 0 top left, and ending in 8 bottom right.
 
-![text-transition](examples/representation.jpg)
+![react-pattern-lock](examples/representation.jpg)
 
 So for example :
 
-![text-transition](examples/output-example.gif)
+![react-pattern-lock](examples/output-example.gif)
 
 This would result in an array like this ```[1, 3, 4, 0]```.
 
@@ -86,23 +86,23 @@ This property is used to set the height of the pattern input's wrapper (to make 
 #### <a name="prop-allowJumping"></a> allowJumping ```Boolean``` *default : false*
 Setting this property to true would allow you to connect 2 points that have unselected points between them (diagonally, vertically or horizontally) without the points in the middle being auto selected for you (see image below).
 
-![text-transition](examples/allow-jumping.PNG)
+![react-pattern-lock](examples/allow-jumping.PNG)
 
 #### <a name="prop-disabled"></a> disabled ```Boolean``` *default : false*
 Makes the pattern input disabled (turns gray and user input is disabled).
 
-![text-transition](examples/disabled.jpg)
+![react-pattern-lock](examples/disabled.jpg)
 
 #### <a name="prop-invisible"></a> invisible ```Boolean``` *default : false*
 Hides the lines that connect the pattern points.
 
-![text-transition](examples/invisible.gif)
+![react-pattern-lock](examples/invisible.gif)
 
 
 #### <a name="prop-noPop"></a> noPop ```Boolean``` *default : false*
 Disables the pop animation when a point gets activated.
 
-![text-transition](examples/noPop.gif)
+![react-pattern-lock](examples/noPop.gif)
 
 #### <a name="prop-onChange"></a> onChange ```Function``` *default : () => Promise.resolve()*
 A function that returns a promise.
@@ -136,7 +136,7 @@ When the cursor enters this area the point will be activated.
 
 Activate areas are indicated by the blue squares.
 
-![text-transition](examples/active-area.jpg)
+![react-pattern-lock](examples/active-area.jpg)
 
 
 # License
