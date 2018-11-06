@@ -12,7 +12,8 @@ class PatternLock extends PureComponent {
 	static propTypes = {
 		width : PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
 
-		onChange : PropTypes.func,
+		onChange     : PropTypes.func,
+		onDotConnect : PropTypes.func,
 
 		className : PropTypes.string,
 		style     : PropTypes.object,
@@ -23,14 +24,18 @@ class PatternLock extends PureComponent {
 		pointSize       : PropTypes.number,
 		pointActiveSize : PropTypes.number,
 
-		connectorWidth : PropTypes.number,
-		connectorColor : PropTypes.string,
+		connectorWidth          : PropTypes.number,
+		connectorColor          : PropTypes.string,
+		connectorRoundedCorners : PropTypes.bool,
 
 		disabledColor : PropTypes.string,
 
 		invisible : PropTypes.bool,
 		noPop     : PropTypes.bool,
 		disabled  : PropTypes.bool,
+
+		allowOverlapping : PropTypes.bool,
+		allowJumping     : PropTypes.bool,
 
 		size(props, name) {
 			if (props[name] < 2 || props[name] > 15) return new Error("Size must be between 2 and 15");
@@ -41,6 +46,7 @@ class PatternLock extends PureComponent {
 		size : 3,
 
 		onChange() { return Promise.resolve(); },
+		onDotConnect() {},
 
 		className : "",
 		style     : {},
@@ -50,15 +56,19 @@ class PatternLock extends PureComponent {
 		pointColor      : "#FFF",
 		pointSize       : 10,
 		pointActiveSize : 30,
-
-		connectorWidth : 2,
-		connectorColor : "#FFF",
+		
+		connectorWidth          : 2,
+		connectorColor          : "#FFF",
+		connectorRoundedCorners : false,
 
 		disabledColor : "#BBB",
 
 		invisible : false,
 		noPop     : false,
-		disabled  : false
+		disabled  : false,
+
+		allowOverlapping : false,
+		allowJumping     : false
 	};
 
 	static getPositionFromEvent({ clientX, clientY, touches }) {
@@ -169,17 +179,21 @@ class PatternLock extends PureComponent {
 	}
 
 	activate(i) {
-		if (this.state.path.indexOf(i) === -1) {
-			const jumpingPoints = this.checkJumping(this.state.path[this.state.path.length - 1], i);
-			this.setState({ path : [...this.state.path, ...jumpingPoints, i] });
+		let path = [...this.state.path];
+		if (!this.props.allowJumping) {
+			path = [...path, ...this.checkJumping(this.state.path[this.state.path.length - 1], i)];
 		}
+		path.push(i);
+		this.setState({ path });
+		this.props.onDotConnect(i);
 	}
 
 	detectCollision({ x, y }) {
-		const { pointActiveSize } = this.props;
+		const { pointActiveSize, allowOverlapping } = this.props;
+		const { path } = this.state;
 
 		this.points.forEach((point, i) => {
-			if (this.state.path.indexOf(i) === -1) {
+			if ((allowOverlapping && path[path.length - 1] !== i) || path.indexOf(i) === -1) {
 				if (
 					x > point.x
 					&& x < point.x + pointActiveSize
@@ -299,12 +313,15 @@ class PatternLock extends PureComponent {
 								className="react-pattern-lock__connector"
 								key={`${x}-${arr[i + 1]}`}
 								style={{
-									background : this.getColor(this.props.connectorColor),
-									transform  : `rotate(${getAngle(fr, to)}rad)`,
-									width      : `${getDistance(fr, to)}px`,
-									left       : `${fr.x}px`,
-									top        : `${fr.y}px`,
-									height     : this.props.connectorWidth
+									background   : this.getColor(this.props.connectorColor),
+									transform    : `rotate(${getAngle(fr, to)}rad)`,
+									width        : `${getDistance(fr, to)}px`,
+									left         : `${fr.x}px`,
+									top          : `${fr.y}px`,
+									height       : this.props.connectorWidth,
+									borderRadius : this.props.connectorRoundedCorners
+										? Math.round(this.props.connectorWidth / 2)
+										: 0
 								}}
 							/>
 						);
@@ -346,8 +363,8 @@ class PatternLock extends PureComponent {
 						<div
 							className={ isActive && !this.props.noPop ? "active" : "" }
 							style={{
-								width      : pointSize,
-								height     : pointSize,
+								minWidth      : pointSize,
+								minHeight     : pointSize,
 								background : this.getColor(pointColor, isActive)
 							}}
 						/>
