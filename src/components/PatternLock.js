@@ -56,7 +56,7 @@ class PatternLock extends PureComponent {
 		pointColor      : "#FFF",
 		pointSize       : 10,
 		pointActiveSize : 30,
-		
+
 		connectorWidth          : 2,
 		connectorColor          : "#FFF",
 		connectorRoundedCorners : false,
@@ -340,7 +340,9 @@ class PatternLock extends PureComponent {
 		} = this.props;
 
 		return this.points.map((x, i) => {
-			const isActive = this.state.path.indexOf(i) > -1;
+			const activeIndex = this.state.path.indexOf(i);
+			const isActive = activeIndex > -1;
+			const orderNumber = isActive ? activeIndex + 1 : null;
 			const percentPerItem = 100 / size;
 
 			return (
@@ -367,6 +369,7 @@ class PatternLock extends PureComponent {
 								minHeight     : pointSize,
 								background : this.getColor(pointColor, isActive)
 							}}
+							data-order-number={orderNumber}
 						/>
 					</div>
 				</div>
