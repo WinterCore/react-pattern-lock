@@ -18,7 +18,8 @@ class PatternLock extends PureComponent {
 		className : PropTypes.string,
 		style     : PropTypes.object,
 
-		errorColor : PropTypes.string,
+		errorColor  : PropTypes.string,
+		freezeColor : PropTypes.string,
 
 		pointColor      : PropTypes.string,
 		pointSize       : PropTypes.number,
@@ -33,6 +34,7 @@ class PatternLock extends PureComponent {
 		invisible : PropTypes.bool,
 		noPop     : PropTypes.bool,
 		disabled  : PropTypes.bool,
+		freeze    : PropTypes.bool,
 
 		allowOverlapping : PropTypes.bool,
 		allowJumping     : PropTypes.bool,
@@ -51,12 +53,13 @@ class PatternLock extends PureComponent {
 		className : "",
 		style     : {},
 
-		errorColor : "#F00",
+		errorColor  : "#F00",
+		freezeColor : "#779ecb",
 
 		pointColor      : "#FFF",
 		pointSize       : 10,
 		pointActiveSize : 30,
-		
+
 		connectorWidth          : 2,
 		connectorColor          : "#FFF",
 		connectorRoundedCorners : false,
@@ -66,6 +69,7 @@ class PatternLock extends PureComponent {
 		invisible : false,
 		noPop     : false,
 		disabled  : false,
+		freeze    : false,
 
 		allowOverlapping : false,
 		allowJumping     : false
@@ -77,7 +81,7 @@ class PatternLock extends PureComponent {
 	}
 
 	constructor(props) {
-		super();
+		super(props);
 
 		this.points  = [];
 
@@ -88,6 +92,7 @@ class PatternLock extends PureComponent {
 			path      : [],
 			position  : { x : 0, y : 0 },
 			error     : false,
+			isFrozen  : false,
 			isLoading : false
 		};
 
@@ -135,8 +140,12 @@ class PatternLock extends PureComponent {
 			const validate = this.props.onChange(this.state.path);
 			if (typeof validate.then !== "function") throw new Error("The onChnage prop must return a promise.");
 			validate.then(() => {
-				this.reset();
-				this.setState({ isLoading : false });
+				if (this.shouldFreezeResult) {
+					this.setState({ isLoading : false, isFrozen : true });
+				} else {
+					this.reset();
+					this.setState({ isLoading : false });
+				}
 			}).catch((err) => {
 				this.error(err);
 				this.setState({ isLoading : false });
@@ -152,6 +161,10 @@ class PatternLock extends PureComponent {
 		return this.props.disabled || this.state.isLoading;
 	}
 
+	get shouldFreezeResult() {
+		return this.props.freeze;
+	}
+
 	getExactPointPosition({ x, y }) {
 		const halfActiveSize     = Math.floor(this.props.pointActiveSize / 2);
 		const halfConnectorWidth = Math.floor(this.props.connectorWidth / 2);
@@ -163,6 +176,7 @@ class PatternLock extends PureComponent {
 
 	getColor(defaultColor, isActive = true) {
 		if (this.state.error && isActive) return this.props.errorColor;
+		if (this.state.isFrozen && isActive) return this.props.freezeColor;
 		if (this.isDisabled) return this.props.disabledColor;
 		return defaultColor;
 	}
@@ -285,8 +299,9 @@ class PatternLock extends PureComponent {
 	reset() {
 		clearTimeout(this.unerrorTimeout);
 		this.setState({
-			error : false,
-			path  : []
+			error    : false,
+			isFrozen : false,
+			path     : []
 		});
 	}
 
@@ -363,8 +378,8 @@ class PatternLock extends PureComponent {
 						<div
 							className={ isActive && !this.props.noPop ? "active" : "" }
 							style={{
-								minWidth      : pointSize,
-								minHeight     : pointSize,
+								minWidth   : pointSize,
+								minHeight  : pointSize,
 								background : this.getColor(pointColor, isActive)
 							}}
 						/>
