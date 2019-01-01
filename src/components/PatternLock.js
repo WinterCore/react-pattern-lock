@@ -138,7 +138,7 @@ class PatternLock extends PureComponent {
 
 			// validate
 			const validate = this.props.onChange(this.state.path);
-			if (typeof validate.then !== "function") throw new Error("The onChnage prop must return a promise.");
+			if (typeof validate.then !== "function") throw new Error("The onChange prop must return a promise.");
 			validate.then(() => {
 				if (this.shouldFreezeResult) {
 					this.setState({ isLoading : false, isFrozen : true });
