@@ -20,7 +20,6 @@
         "import/no-extraneous-dependencies" : ["error", { "devDependencies": true }],
         "quotes"                            : ["warn", "double"],
         "indent"                            : ["warn", "tab"],
-        "linebreak-style"                   : ["warn", "windows"],
         "key-spacing"                       : [
             "warn",
             {

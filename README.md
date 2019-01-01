@@ -33,11 +33,13 @@ import PatternLock          from "react-pattern-lock";
 | [size](#prop-size) | Number | 3 | The size of the pattern input. |
 | [width](#prop-width) | Number, String | Required | The width of the pattern wrapper. |
 | [disabled](#prop-disabled) | Boolean | false | Disables the pattern input. |
+| [freeze](#prop-freeze) | Boolean | false | Freezes the pattern input on success. |
 | [invisible](#prop-invisible) | Boolean | false | Makes the lines that connect the points invisible. |
 | [noPop](#prop-noPop) | Boolean | false | Disables the pop animation when a point gets activated. |
 | [onChange](#prop-onChange) | Function | (pattern) => Promise.resolve() | A function that returns a Promise, the promise should resolve if the pattern was correct and reject otherwise. |
 | onDotConnect | Function | (i) => {} | A function that gets executed each time a point gets activated (will receive the point's index as the first argument). |
 | errorColor | String | #F00 | The color used to indicate whenever a wrong pattern was drawn. |
+| freezeColor | String | #779ecb | The color used for the frozen result when the `freeze` option is on. |
 | [allowJumping](#prop-allowJumping) | Boolean | false | Setting this to true would disable the auto activation on points that are in the middle of 2 already activated points (see details below). |
 | allowOverlapping | Boolean | false | Allows you to select the same point multiple times (Doesn't show the pop animation on the second time). |
 | pointColor | String | #FFF | The color of the pattern points. |
@@ -93,6 +95,11 @@ Setting this property to true would allow you to connect 2 points that have unse
 Makes the pattern input disabled (turns gray and user input is disabled).
 
 ![react-pattern-lock](examples/disabled.jpg)
+
+#### <a name="prop-freeze"></a> freeze ```Boolean``` *default : false*
+Freezes the pattern input on successful entry (turns blue and does not clear the input).
+
+![react-pattern-lock](examples/freeze.jpg)
 
 #### <a name="prop-invisible"></a> invisible ```Boolean``` *default : false*
 Hides the lines that connect the pattern points.

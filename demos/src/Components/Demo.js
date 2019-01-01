@@ -36,7 +36,7 @@ class Demo extends Component {
 						onChange={ this.onChange }
 					/>
 				</div>
-				<div class="output">
+				<div className="output">
 					Output : { this.state.path.join(", ") }
 				</div>
 			</Fragment>
