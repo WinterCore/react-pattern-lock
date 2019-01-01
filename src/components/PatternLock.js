@@ -311,7 +311,14 @@ class PatternLock extends PureComponent {
 				{
 					this.state.path.map((x, i, arr) => {
 						const toMouse = arr[i + 1] === undefined;
-						if (toMouse && (this.isDisabled || this.state.error || this.state.isFrozen)) return null;
+						if (
+							toMouse
+							&& (
+								this.isDisabled
+								|| this.state.error
+								|| this.state.isFrozen
+							)
+						) return null;
 
 						const fr = this.getExactPointPosition(this.points[x]);
 						let to = null;
