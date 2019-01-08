@@ -48,6 +48,7 @@ import PatternLock          from "react-pattern-lock";
 | connectorWidth | Number | 2 | The thickness (in pixels) of the lines that connect the points. |
 | connectorColor | String | #FFF | The color of the lines that connect the points. |
 | connectorRoundedCorners | Boolean | false | Setting this to true makes the connector edges rounded. |
+| path | Array | [] | Initial path of the pattern. Applied only if the `freeze` option is on. |
 | className | String | | Any css classes that you might want to send to the wrapper. |
 | style | Object | {} | Any css styles that you might want to send to the wrapper. |
 

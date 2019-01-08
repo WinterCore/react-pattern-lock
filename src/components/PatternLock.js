@@ -11,6 +11,7 @@ class PatternLock extends PureComponent {
 	static displayName = "PatternLock";
 	static propTypes = {
 		width : PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+		path  : PropTypes.array,
 
 		onChange     : PropTypes.func,
 		onDotConnect : PropTypes.func,
@@ -46,6 +47,7 @@ class PatternLock extends PureComponent {
 
 	static defaultProps = {
 		size : 3,
+		path : [],
 
 		onChange() { return Promise.resolve(); },
 		onDotConnect() {},
@@ -87,12 +89,14 @@ class PatternLock extends PureComponent {
 
 		for (let i = (props.size ** 2) - 1; i >= 0; i -= 1) this.points.push({ x : 0, y : 0 });
 
+		const frozen = props.path.length && props.freeze;
+
 		this.state = {
 			height    : 0,
-			path      : [],
+			path      : frozen ? props.path : [],
 			position  : { x : 0, y : 0 },
 			error     : false,
-			isFrozen  : false,
+			isFrozen  : frozen,
 			isLoading : false
 		};
 
@@ -108,6 +112,9 @@ class PatternLock extends PureComponent {
 
 	componentDidMount() {
 		this.updateHeight();
+		if (this.state.isFrozen) {
+			this.onChange();
+		}
 		window.addEventListener("mouseup", this.onRelease);
 		window.addEventListener("touchend", this.onRelease);
 	}
@@ -134,23 +141,26 @@ class PatternLock extends PureComponent {
 		this.wrapper.removeEventListener("touchmove", this.onMove);
 
 		if (!this.isDisabled && this.state.path.length > 0 && !this.state.error) {
-			this.setState({ isLoading : true });
-
-			// validate
-			const validate = this.props.onChange(this.state.path);
-			if (typeof validate.then !== "function") throw new Error("The onChange prop must return a promise.");
-			validate.then(() => {
-				if (this.shouldFreezeResult) {
-					this.setState({ isLoading : false, isFrozen : true });
-				} else {
-					this.reset();
-					this.setState({ isLoading : false });
-				}
-			}).catch((err) => {
-				this.error(err);
-				this.setState({ isLoading : false });
-			});
+			this.onChange();
 		}
+	}
+
+	onChange() {
+		this.setState({ isLoading : true });
+		// validate
+		const validate = this.props.onChange(this.state.path);
+		if (typeof validate.then !== "function") throw new Error("The onChange prop must return a promise.");
+		validate.then(() => {
+			if (this.shouldFreezeResult) {
+				this.setState({ isLoading : false, isFrozen : true });
+			} else {
+				this.reset();
+				this.setState({ isLoading : false });
+			}
+		}).catch((err) => {
+			this.error(err);
+			this.setState({ isLoading : false });
+		});
 	}
 
 	onMove(evt) {
