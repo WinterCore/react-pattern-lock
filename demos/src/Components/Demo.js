@@ -14,7 +14,7 @@ class Demo extends Component {
 	onChange = (path) => {
 		this.setState({ path });
 		return new Promise((resolve, reject) => {
-			setTimeout(() => path.join("-") === "1-3-4-0" ? resolve() : reject(), 1500);
+			setTimeout(() => (path.join("-") === "1-3-4-0" ? resolve() : reject()), 1500);
 		});
 	}
 
