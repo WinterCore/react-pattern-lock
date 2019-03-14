@@ -15,6 +15,7 @@
         "react/prefer-stateless-function"   : 1,
         "react/jsx-curly-spacing"           : 0,
         "react/no-array-index-key"          : 0,
+        "react/no-did-mount-set-state"      : 0,
         "react/jsx-indent-props"            : ["warn", "tab"],
         "react/jsx-indent"                  : ["warn", "tab"],
         "import/no-extraneous-dependencies" : ["error", { "devDependencies": true }],

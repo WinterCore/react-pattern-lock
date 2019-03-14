@@ -111,7 +111,11 @@ class PatternLock extends PureComponent {
 	}
 
 	componentDidMount() {
-		this.updateHeight();
+		const height = this.wrapper.offsetWidth;
+		this.setState({ height }, () => {
+			this.updateProperties();
+			this.forceUpdate();
+		});
 		if (this.state.isFrozen) {
 			this.onChange();
 		}
@@ -277,11 +281,6 @@ class PatternLock extends PureComponent {
 			}
 		}
 		return [];
-	}
-
-	updateHeight() {
-		const height = this.wrapper.offsetWidth;
-		this.setState({ height }, this.updateProperties);
 	}
 
 	updateProperties() {
