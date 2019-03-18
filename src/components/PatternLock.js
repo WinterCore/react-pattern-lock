@@ -85,6 +85,9 @@ class PatternLock extends PureComponent {
 	constructor(props) {
 		super(props);
 
+		const points = [];
+		for (let i = (props.size ** 2) - 1; i >= 0; i -= 1) points.push({ x : 0, y : 0 });
+
 		const frozen = props.path.length && props.freeze;
 
 		this.state = {
@@ -94,7 +97,7 @@ class PatternLock extends PureComponent {
 			error     : false,
 			isFrozen  : frozen,
 			isLoading : false,
-			points    : []
+			points
 		};
 
 		this.unerrorTimeout = 0;
@@ -116,7 +119,6 @@ class PatternLock extends PureComponent {
 		if (this.state.isFrozen) {
 			this.onChange();
 		}
-		this.generatePoints();
 		window.addEventListener("mouseup", this.onRelease);
 		window.addEventListener("touchend", this.onRelease);
 	}
