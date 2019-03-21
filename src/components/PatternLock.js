@@ -360,7 +360,7 @@ class PatternLock extends PureComponent {
 						return (
 							<div
 								className="react-pattern-lock__connector"
-								key={`${x}-${arr[i + 1]}`}
+								key={ i }
 								style={{
 									background   : this.getColor(this.props.connectorColor),
 									transform    : `rotate(${getAngle(fr, to)}rad)`,
