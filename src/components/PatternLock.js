@@ -85,9 +85,8 @@ class PatternLock extends PureComponent {
 	constructor(props) {
 		super(props);
 
-		this.points  = [];
-
-		for (let i = (props.size ** 2) - 1; i >= 0; i -= 1) this.points.push({ x : 0, y : 0 });
+		const points = [];
+		for (let i = (props.size ** 2) - 1; i >= 0; i -= 1) points.push({ x : 0, y : 0 });
 
 		const frozen = props.path.length && props.freeze;
 
@@ -97,7 +96,8 @@ class PatternLock extends PureComponent {
 			position  : { x : 0, y : 0 },
 			error     : false,
 			isFrozen  : frozen,
-			isLoading : false
+			isLoading : false,
+			points
 		};
 
 		this.unerrorTimeout = 0;
@@ -121,6 +121,12 @@ class PatternLock extends PureComponent {
 		}
 		window.addEventListener("mouseup", this.onRelease);
 		window.addEventListener("touchend", this.onRelease);
+	}
+
+	componentDidUpdate(prevProps) {
+		if (prevProps.size !== this.props.size) {
+			this.generatePoints();
+		}
 	}
 
 	componentWillUnmount() {
@@ -195,6 +201,14 @@ class PatternLock extends PureComponent {
 		return defaultColor;
 	}
 
+	generatePoints() {
+		const points = [];
+		for (let i = (this.props.size ** 2) - 1; i >= 0; i -= 1) points.push({ x : 0, y : 0 });
+		this.setState({
+			points
+		});
+	}
+
 
 	updateMousePositionAndCheckCollision(evt, reset) {
 		const { x, y } = PatternLock.getPositionFromEvent(evt);
@@ -220,7 +234,7 @@ class PatternLock extends PureComponent {
 		const { pointActiveSize, allowOverlapping } = this.props;
 		const { path } = this.state;
 
-		this.points.forEach((point, i) => {
+		this.state.points.forEach((point, i) => {
 			if ((allowOverlapping && path[path.length - 1] !== i) || path.indexOf(i) === -1) {
 				if (
 					x > point.x
@@ -293,10 +307,14 @@ class PatternLock extends PureComponent {
 		this.left = left;
 		this.top  = top;
 
-		this.points = this.points.map((x, i) => ({
+		const newPoints = this.state.points.map((x, i) => ({
 			x : ((sizePerItem * (i % size)) + halfSizePerItem) - halfSize,
 			y : ((sizePerItem * Math.floor(i / size)) + halfSizePerItem) - halfSize
 		}));
+
+		this.setState({
+			points : newPoints
+		});
 	}
 
 
@@ -329,7 +347,7 @@ class PatternLock extends PureComponent {
 							)
 						) return null;
 
-						const fr = this.getExactPointPosition(this.points[x]);
+						const fr = this.getExactPointPosition(this.state.points[x]);
 						let to = null;
 						if (toMouse) {
 							to = {
@@ -337,7 +355,7 @@ class PatternLock extends PureComponent {
 								y : this.state.position.y - (this.props.connectorWidth / 2)
 							};
 						} else {
-							to = this.getExactPointPosition(this.points[arr[i + 1]]);
+							to = this.getExactPointPosition(this.state.points[arr[i + 1]]);
 						}
 						return (
 							<div
@@ -370,7 +388,7 @@ class PatternLock extends PureComponent {
 			size
 		} = this.props;
 
-		return this.points.map((x, i) => {
+		return this.state.points.map((x, i) => {
 			const activeIndex = this.state.path.indexOf(i);
 			const isActive = activeIndex > -1;
 			const orderNumber = isActive ? activeIndex + 1 : null;
