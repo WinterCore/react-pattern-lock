@@ -149,8 +149,7 @@ class PatternLock extends PureComponent {
 	onRelease() {
 		this.wrapper.removeEventListener("mousemove", this.onMove);
 		this.wrapper.removeEventListener("touchmove", this.onMove);
-
-		if (!this.isDisabled && this.state.path.length > 0 && !this.state.error) {
+		if (!this.isDisabled && this.state.path.length > 0 && !this.state.error && !this.state.isFrozen) {
 			this.onChange();
 		}
 	}
