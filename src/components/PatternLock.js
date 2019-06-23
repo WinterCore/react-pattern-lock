@@ -119,8 +119,8 @@ class PatternLock extends PureComponent {
 		if (this.state.isFrozen) {
 			this.onChange();
 		}
-		window.addEventListener("mouseup", this.onRelease);
-		window.addEventListener("touchend", this.onRelease);
+		this.wrapper.addEventListener("mouseup", this.onRelease);
+		this.wrapper.addEventListener("touchend", this.onRelease);
 	}
 
 	componentDidUpdate(prevProps) {
@@ -132,8 +132,8 @@ class PatternLock extends PureComponent {
 	componentWillUnmount() {
 		clearTimeout(this.unerrorTimeout);
 
-		window.removeEventListener("mouseup", this.onRelease);
-		window.removeEventListener("touchend", this.onRelease);
+		this.wrapper.removeEventListener("mouseup", this.onRelease);
+		this.wrapper.removeEventListener("touchend", this.onRelease);
 	}
 
 	onHold(evt) {
