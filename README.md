@@ -31,25 +31,21 @@ import PatternLock          from "react-pattern-lock";
 | Prop | Type | Default | Definition |
 | --- | --- | --- | --- |
 | [size](#prop-size) | Number | 3 | The size of the pattern input. |
-| [width](#prop-width) | Number, String | Required | The width of the pattern wrapper. |
+| width | Number, String | "100%" | The width of the pattern wrapper. |
 | [disabled](#prop-disabled) | Boolean | false | Disables the pattern input. |
-| [freeze](#prop-freeze) | Boolean | false | Freezes the pattern input on success. |
 | [invisible](#prop-invisible) | Boolean | false | Makes the lines that connect the points invisible. |
 | [noPop](#prop-noPop) | Boolean | false | Disables the pop animation when a point gets activated. |
-| [onChange](#prop-onChange) | Function | (pattern) => Promise.resolve() | A function that returns a Promise, the promise should resolve if the pattern was correct and reject otherwise. |
-| onDotConnect | Function | (i) => {} | A function that gets executed each time a point gets activated (will receive the point's index as the first argument). |
-| errorColor | String | #F00 | The color used to indicate whenever a wrong pattern was drawn. |
-| freezeColor | String | #779ecb | The color used for the frozen result when the `freeze` option is on. |
+| onChange | Function | (path: number[]) => void | A Function (the first argument is the drawn path). |
+| path | number[] | [] | The drawn path. |
 | [allowJumping](#prop-allowJumping) | Boolean | false | Setting this to true would disable the auto activation on points that are in the middle of 2 already activated points (see details below). |
 | allowOverlapping | Boolean | false | Allows you to select the same point multiple times (Doesn't show the pop animation on the second time). |
-| pointColor | String | #FFF | The color of the pattern points. |
 | pointSize | Number | 10 | The size of the pattern points (used for width and height) in pixels. |
 | [pointActiveSize](#prop-pointActiveSize) | Number | 30 | The size (in pixels) of the active area of the pattern points. |
-| connectorWidth | Number | 2 | The thickness (in pixels) of the lines that connect the points. |
-| connectorColor | String | #FFF | The color of the lines that connect the points. |
+| connectorThickness | Number | 2 | The thickness (in pixels) of the lines that connect the points. |
 | connectorRoundedCorners | Boolean | false | Setting this to true makes the connector edges rounded. |
-| path | Array | [] | Initial path of the pattern. Applied only if the `freeze` option is on. |
-| className | String | | Any css classes that you might want to send to the wrapper. |
+| className | String | "" | Any css classes that you might want to send to the wrapper. |
+| success | Boolean | false | Will add "success" class to the wrapper, it will also make the points and the connectors green |
+| error | Boolean | false | Will add "error" class to the wrapper, it will also make the points and the connectors red |
 | style | Object | {} | Any css styles that you might want to send to the wrapper. |
 
 ----
@@ -78,15 +74,6 @@ The size of the pattern input
 * 4 is 4x4 (16 points in total).
 * etc.
 
-The value should be between 3 and 15
-
-#### <a name="prop-width"></a> width ```Number``` *REQUIRED*
-The width of the pattern input's wrapper.  
-Is the same as css's width property.  
-eg : "100em", "100%".  
-If the provided value had no unit, it will be considered as pixels.
-This property is used to set the height of the pattern input's wrapper (to make a square).
-
 #### <a name="prop-allowJumping"></a> allowJumping ```Boolean``` *default : false*
 Setting this property to true would allow you to connect 2 points that have unselected points between them (diagonally, vertically or horizontally) without the points in the middle being auto selected for you (see image below).
 
@@ -96,11 +83,6 @@ Setting this property to true would allow you to connect 2 points that have unse
 Makes the pattern input disabled (turns gray and user input is disabled).
 
 ![react-pattern-lock](examples/disabled.jpg)
-
-#### <a name="prop-freeze"></a> freeze ```Boolean``` *default : false*
-Freezes the pattern input on successful entry (turns blue and does not clear the input).
-
-![react-pattern-lock](examples/freeze.jpg)
 
 #### <a name="prop-invisible"></a> invisible ```Boolean``` *default : false*
 Hides the lines that connect the pattern points.
@@ -113,31 +95,6 @@ Disables the pop animation when a point gets activated.
 
 ![react-pattern-lock](examples/noPop.gif)
 
-#### <a name="prop-onChange"></a> onChange ```Function``` *default : () => Promise.resolve()*
-A function that returns a promise.
-The function will get executed when the user releases the left mouse button (1 point must be selected at least).   
-It will be given a ```pattern``` parameter, see [Pattern Representation](#pattern-representation) for more info.
-for example
-```js
-// in your render method
-<PatternLock
-	onChange={(pattern) => {
-		return new Promise((resolve, reject) => {
-			Axios.post("/patternLogin", { pattern })
-				.then(({ data }) => {
-					if (data.success) resolve();
-					else reject();
-				}).catch(console.log);
-		});
-	}}
-/>
-
-// server side (express.js with bodyParser)
-app.post("/patternLogin", (req, res) => {
-	res.json({ success : req.body.pattern.join("-") === "1-3-4-0" });
-});
-```
-
 #### <a name="prop-pointActiveSize"></a> pointActiveSize ```Number``` *default : 30*
 
 The active area of each of the points.  
@@ -147,6 +104,11 @@ Activate areas are indicated by the blue squares.
 
 ![react-pattern-lock](examples/active-area.jpg)
 
+## Extra
+You can override the default colors for (disabled, success, error) using css
+Check the codepen example for more info
+
+[![Edit n5j7knjo54](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/n5j7knjo54)
 
 # License
-MIT Licensed. Copyright (c) WinterCore 2018.
+MIT Licensed. Copyright (c) WinterCore 2019.

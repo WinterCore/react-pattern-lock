@@ -2,18 +2,29 @@ const path                       = require("path");
 const WebpackBuildNotifierPlugin = require("webpack-build-notifier");
 
 module.exports = {
-	entry     : path.resolve(__dirname, "src", "app.js"),
+    entry   : path.resolve(__dirname, "src", "app.tsx"),
     devtool : "sourcemap",
-	module  : {
+    resolve : {
+        extensions : [".ts", ".tsx", ".js", ".json"],
+        alias      : {
+            "react-dom" : "@hot-loader/react-dom"
+        }
+    },
+    module  : {
 		rules : [
 			{
-                test    : /\.js$/,
+                test    : /\.tsx?$/,
                 exclude : /node_modules/,
                 use     : [{
-                    loader: "babel-loader",
-                    options : { plugins : ["react-hot-loader/babel"] }
+                    loader  : "ts-loader",
+                    options : {
+                        context                 : path.resolve(__dirname, ".."),
+                        onlyCompileBundledFiles : true,
+                        configFile              : path.resolve(__dirname, "tsconfig.json")
+                    }
                 }]
-            }, {
+            },
+            {
 				test    : /\.styl$/,
 				exclude : /node_modules/,
 				use     : ["style-loader", "css-loader", "stylus-loader"]

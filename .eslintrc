@@ -1,27 +1,19 @@
 {
-    "parser": "babel-eslint",
-    "extends" : "airbnb",
-    "env" : {
-        "browser": true
+    "extends"       : "plugin:@typescript-eslint/recommended",
+    "parser"        : "@typescript-eslint/parser",
+    "parserOptions" : {
+        "ecmaVersion": 2018,
+        "sourceType": "module"
     },
     "rules"   : {
-        "no-multi-spaces"                   : 0,
-        "eol-last"                          : 0,
-        "consistent-return"                 : 0,
-        "react/jsx-filename-extension"      : 0,
-        "no-unused-vars"                    : 1,
-        "no-tabs"                           : 0,
-        "react/forbid-prop-types"           : 0,
-        "react/prefer-stateless-function"   : 1,
-        "react/jsx-curly-spacing"           : 0,
-        "react/no-array-index-key"          : 0,
-        "react/no-did-mount-set-state"      : 0,
-        "react/jsx-indent-props"            : ["warn", "tab"],
-        "react/jsx-indent"                  : ["warn", "tab"],
-        "import/no-extraneous-dependencies" : ["error", { "devDependencies": true }],
-        "quotes"                            : ["warn", "double"],
-        "indent"                            : ["warn", "tab"],
-        "key-spacing"                       : [
+        "react/jsx-uses-react" : 1,
+        "no-multi-spaces"      : 0,
+        "eol-last"             : 0,
+        "consistent-return"    : 0,
+        "no-unused-vars"       : 1,
+        "quotes"               : ["warn", "double"],
+        "indent"               : ["warn", 4],
+        "key-spacing"          : [
             "warn",
             {
                 "singleLine": {
