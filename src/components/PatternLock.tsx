@@ -1,5 +1,6 @@
 import * as React      from "react";
 import * as classnames from "classnames";
+import * as PropTypes  from "prop-types";
 
 import "../styles/main.styl";
 
@@ -160,7 +161,26 @@ const PatternLock: React.FunctionComponent<ReactPatternLockProps> = ({
     );
 };
 
-
+PatternLock.propTypes = {
+    path                    : PropTypes.arrayOf(PropTypes.number.isRequired).isRequired,
+    width                   : PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+    size                    : PropTypes.number,
+    pointActiveSize         : PropTypes.number,
+    connectorThickness      : PropTypes.number,
+    connectorRoundedCorners : PropTypes.bool,
+    pointSize               : PropTypes.number,
+    disabled                : PropTypes.bool,
+    error                   : PropTypes.bool,
+    success                 : PropTypes.bool,
+    allowOverlapping        : PropTypes.bool,
+    allowJumping            : PropTypes.bool,
+    style                   : PropTypes.object,
+    className               : PropTypes.bool,
+    noPop                   : PropTypes.bool,
+    invisible               : PropTypes.bool,
+    onChange                : PropTypes.func.isRequired,
+    onFinish                : PropTypes.func.isRequired
+};
 
 
 export default PatternLock;
