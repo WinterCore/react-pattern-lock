@@ -19,10 +19,12 @@ import PatternLock          from "react-pattern-lock";
 	width={ 300 }
 	pointSize={ 15 }
 	size={ 3 }
+	path={ this.state.path }
 	onChange={ (pattern) => {
-		return new Promise((resolve, reject) => {
-			setTimeout(() => pattern.join("") === "1340" ? resolve() : reject(), 1500);
-		});
+		this.setState({ path : pattern });
+	}}
+	onFinish={() => {
+		// check if the pattern is correct
 	}}
 />
 ```
