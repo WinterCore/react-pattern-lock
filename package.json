@@ -1,6 +1,6 @@
 {
   "name": "react-pattern-lock",
-  "version": "2.0.4",
+  "version": "2.0.5",
   "description": "Android's 3x3 pattern lock",
   "main": "dist/index.js",
   "types": "typings/index.d.ts",
