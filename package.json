@@ -60,7 +60,8 @@
     "react": "^16.8.0"
   },
   "files": [
-    "dist"
+    "dist",
+    "typings"
   ],
   "dependencies": {
     "classnames": "^2.2.6",
