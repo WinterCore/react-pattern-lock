@@ -68,7 +68,6 @@ class Demo extends React.Component {
 						onChange={ this.onChange }
 						path={ path }
 						error={ error }
-						invisible
 						onFinish={ this.onFinish }
 						connectorThickness={ 5 }
 						disabled={ disabled || isLoading }
