@@ -9,28 +9,6 @@ import Connectors from "./Connectors";
 
 import { getPoints, getCollidedPointIndex, getPointsInTheMiddle } from "../utils";
 
-interface ReactPatternLockProps {
-    path                     : number[];
-    width?                   : number | string;
-    size?                    : number;
-    pointActiveSize?         : number;
-    connectorThickness?      : number;
-    connectorRoundedCorners? : boolean;
-    pointSize?               : number;
-    disabled?                : boolean;
-    error?                   : boolean;
-    success?                 : boolean;
-    allowOverlapping?        : boolean;
-    allowJumping?            : boolean;
-    style?                   : React.CSSProperties,
-    className?               : boolean;
-    noPop?                   : boolean;
-    invisible?               : boolean;
-
-    onChange(path: number[]) : void;
-    onFinish()               : void;
-}
-
 const PatternLock: React.FunctionComponent<ReactPatternLockProps> = ({
     width                   = "100%",
     size                    = 5,

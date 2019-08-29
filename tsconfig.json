@@ -1,18 +1,24 @@
 {
     "compilerOptions": {
-        "outDir"        : "./dist",
-        "sourceMap"     : true,
-        "noImplicitAny" : true,
-        "strict"        : true,
-        "declaration"   : true,
-        "module"        : "commonjs",
-        "target"        : "es6",
-        "jsx"           : "react"
+        "outDir"           : "./dist",
+        "sourceMap"        : true,
+        "strict"           : true,
+        "noImplicitAny"    : true,
+        "strictNullChecks" : true,
+        "removeComments"   : true,
+        "declaration"      : false,
+        "module"           : "commonjs",
+        "target"           : "es5",
+        "jsx"              : "react"
     },
     "include": [
-        "src"
+        "src/**/*.tsx",
+        "src/**/*.ts", "typings/index.d.ts"
     ],
     "files" : [
-        "./src/index.d.ts"
+        "src/index.d.ts"
+    ],
+    "exclude" : [
+        "node_modules"
     ]
 }

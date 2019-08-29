@@ -3,7 +3,7 @@
   "version": "2.0.3",
   "description": "Android's 3x3 pattern lock",
   "main": "dist/index.js",
-  "typings": "typings/index",
+  "types": "typings/index.d.ts",
   "scripts": {
     "build": "webpack --progress --mode production",
     "dev": "webpack-dev-server --watch --progress --mode development --hot --config demos/webpack.config.js",

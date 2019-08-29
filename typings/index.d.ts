@@ -20,12 +20,6 @@ interface ReactPatternLockProps {
     onFinish()               : void;
 }
 
-type Point = {
-    x : number;
-    y : number;
-};
+declare const PatternLock: React.FC<ReactPatternLockProps>;
 
-type Connector = {
-    from : Point;
-    to   : Point;
-};
+export default PatternLock;
