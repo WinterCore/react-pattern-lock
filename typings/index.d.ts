@@ -12,7 +12,7 @@ interface ReactPatternLockProps {
     allowOverlapping?        : boolean;
     allowJumping?            : boolean;
     style?                   : React.CSSProperties,
-    className?               : boolean;
+    className?               : string;
     noPop?                   : boolean;
     invisible?               : boolean;
 
