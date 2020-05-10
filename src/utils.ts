@@ -1,4 +1,5 @@
 import { useRef, useEffect } from "react";
+import { Point } from "./types";
 
 export const usePrevious = (val: any) => {
   const ref = useRef();

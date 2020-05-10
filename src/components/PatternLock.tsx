@@ -1,15 +1,107 @@
 import * as React      from "react";
 import * as classnames from "classnames";
 import * as PropTypes  from "prop-types";
-
-import "../styles/main.styl";
+import { createGlobalStyle } from "styled-components";
 
 import Point      from "./Point";
 import Connectors from "./Connectors";
 
 import { getPoints, getCollidedPointIndex, getPointsInTheMiddle } from "../utils";
+import { Point as PointType } from "../types";
 
-const PatternLock: React.FunctionComponent<ReactPatternLockProps> = ({
+const Styles = createGlobalStyle`
+    * {
+        user-select none
+    }
+
+    .react-pattern-lock__pattern-wrapper {
+        touch-action: none;
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        position: relative;
+    }
+    .react-pattern-lock__connector-wrapper {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+        pointer-events: none;
+    }
+    .react-pattern-lock__connector {
+        background: white;
+        position: absolute;
+        transform-origin: center left;
+    }
+    .react-pattern-lock__point-wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .react-pattern-lock__point {
+        cursor pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .react-pattern-lock__point-inner {
+        background: white;
+        border-radius: 50%;
+    }
+    .react-pattern-lock__point-inner.active {
+        animation: pop 300ms ease;
+    }
+    .react-pattern-lock__pattern-wrapper.disabled,
+    .react-pattern-lock__pattern-wrapper.disabled .react-pattern-lock__point {
+        cursor: not-allowed;
+    }
+    .react-pattern-lock__pattern-wrapper.disabled .react-pattern-lock__point-inner,
+    .react-pattern-lock__pattern-wrapper.disabled .react-pattern-lock__connector {
+        background: grey;
+    }
+
+    .react-pattern-lock__pattern-wrapper.success .react-pattern-lock__point-inner,
+    .react-pattern-lock__pattern-wrapper.success .react-pattern-lock__connector {
+        background: #00ff00;
+    }
+
+    .react-pattern-lock__pattern-wrapper.error .react-pattern-lock__point-inner,
+    .react-pattern-lock__pattern-wrapper.error .react-pattern-lock__connector {
+        background: red;
+    }
+
+    @keyframes pop {
+        from { transform scale(1); }
+        50% { transform scale(2); }
+        to { transform scale(1); }
+    }
+`;
+
+interface PatternLockProps {
+    path                     : number[];
+    width?                   : number | string;
+    size?                    : number;
+    pointActiveSize?         : number;
+    connectorThickness?      : number;
+    connectorRoundedCorners? : boolean;
+    pointSize?               : number;
+    disabled?                : boolean;
+    error?                   : boolean;
+    success?                 : boolean;
+    allowOverlapping?        : boolean;
+    allowJumping?            : boolean;
+    style?                   : React.CSSProperties,
+    className?               : string;
+    noPop?                   : boolean;
+    invisible?               : boolean;
+
+    onChange(path: number[]) : void;
+    onFinish()               : void;
+}
+
+const PatternLock: React.FunctionComponent<PatternLockProps> = ({
     width                   = "100%",
     size                    = 5,
     pointActiveSize         = 30,
@@ -31,12 +123,12 @@ const PatternLock: React.FunctionComponent<ReactPatternLockProps> = ({
 }) => {
     const wrapperRef                                      = React.useRef<HTMLDivElement>(document.createElement("div"));
     const [height, setHeight]                             = React.useState<number>(0);
-    const [points, setPoints]                             = React.useState<Point[]>([]);
-    const [position, setPosition]                         = React.useState<Point>({ x : 0, y : 0 });
+    const [points, setPoints]                             = React.useState<PointType[]>([]);
+    const [position, setPosition]                         = React.useState<PointType>({ x : 0, y : 0 });
     const [isMouseDown, setIsMouseDown]                   = React.useState<boolean>(false);
-    const [initialMousePosition, setInitialMousePosition] = React.useState<Point | null>(null);
-    
-    const checkCollision = ({ x, y }: Point): void => {
+    const [initialMousePosition, setInitialMousePosition] = React.useState<PointType | null>(null);
+
+    const checkCollision = ({ x, y }: PointType): void => {
         const mouse = { x : x - position.x + window.scrollX, y : y - position.y + window.scrollY }; // relative to the container as opposed to the screen
         const index = getCollidedPointIndex(mouse, points, pointActiveSize);
         if (~index && path[path.length - 1] !== index) {
@@ -65,6 +157,11 @@ const PatternLock: React.FunctionComponent<ReactPatternLockProps> = ({
         setIsMouseDown(true);
         checkCollision({ x: touches[0].clientX, y : touches[0].clientY });
     };
+
+    const onResize = () => {
+        const { top, left } = wrapperRef.current.getBoundingClientRect();
+        setPosition({ x : left, y : top });
+    };
     
     React.useEffect(() => {
         if (!isMouseDown) return;
@@ -80,9 +177,12 @@ const PatternLock: React.FunctionComponent<ReactPatternLockProps> = ({
 
     React.useEffect(() => setHeight(wrapperRef.current.offsetWidth));
     React.useEffect(() => {
+        window.addEventListener("resize", onResize);
+        return () => window.removeEventListener("resize", onResize);
+    }, []);
+    React.useEffect(() => {
         setPoints(getPoints({ pointActiveSize, height, size }));
-        const { top, left } = wrapperRef.current.getBoundingClientRect();
-        setPosition({ x : left, y : top });
+        onResize();
     }, [height, size]);
 
     React.useEffect(() => {
@@ -102,40 +202,43 @@ const PatternLock: React.FunctionComponent<ReactPatternLockProps> = ({
     }, [disabled, path]);
 
     return (
-        <div
-            className    = { classnames([ "react-pattern-lock__pattern-wrapper", { error, success, disabled }, className]) }
-            style        = {{ width, height, ...style }}
-            onMouseDown  = { onHold }
-            onTouchStart = { onTouch }
-            ref          = { wrapperRef }
-        >
-            {
-                points.map((_, i) => (
-                    <Point
-                        key             = { i }
-                        index           = { i }
-                        size            = { size }
-                        pointSize       = { pointSize }
-                        pointActiveSize = { pointActiveSize }
-                        pop             = { !noPop && isMouseDown && path[path.length - 1] === i }
-                        selected        = { path.indexOf(i) > -1 }
-                    />
-                ))
-            }
-            {
-                !invisible && points.length && 
-                    <Connectors
-                        initialMousePosition    = { initialMousePosition }
-                        wrapperPosition         = { position }
-                        path                    = { path }
-                        points                  = { points }
-                        pointActiveSize         = { pointActiveSize }
-                        connectorRoundedCorners = { connectorRoundedCorners }
-                        connectorThickness      = { connectorThickness }
-                    />
-            }
-            
-        </div>
+        <>
+            <Styles />
+            <div
+                className    = { classnames([ "react-pattern-lock__pattern-wrapper", { error, success, disabled }, className]) }
+                style        = {{ width, height, ...style }}
+                onMouseDown  = { onHold }
+                onTouchStart = { onTouch }
+                ref          = { wrapperRef }
+            >
+                {
+                    points.map((_, i) => (
+                        <Point
+                            key             = { i }
+                            index           = { i }
+                            size            = { size }
+                            pointSize       = { pointSize }
+                            pointActiveSize = { pointActiveSize }
+                            pop             = { !noPop && isMouseDown && path[path.length - 1] === i }
+                            selected        = { path.indexOf(i) > -1 }
+                        />
+                    ))
+                }
+                {
+                    !invisible && points.length && 
+                        <Connectors
+                            initialMousePosition    = { initialMousePosition }
+                            wrapperPosition         = { position }
+                            path                    = { path }
+                            points                  = { points }
+                            pointActiveSize         = { pointActiveSize }
+                            connectorRoundedCorners = { connectorRoundedCorners }
+                            connectorThickness      = { connectorThickness }
+                        />
+                }
+                
+            </div>
+        </>
     );
 };
 
@@ -153,7 +256,7 @@ PatternLock.propTypes = {
     allowOverlapping        : PropTypes.bool,
     allowJumping            : PropTypes.bool,
     style                   : PropTypes.object,
-    className               : PropTypes.bool,
+    className               : PropTypes.string,
     noPop                   : PropTypes.bool,
     invisible               : PropTypes.bool,
     onChange                : PropTypes.func.isRequired,
