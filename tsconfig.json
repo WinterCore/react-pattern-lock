@@ -1,22 +1,19 @@
 {
     "compilerOptions": {
-        "outDir"           : "./dist",
+        "outDir"           : "./lib",
         "sourceMap"        : true,
         "strict"           : true,
         "noImplicitAny"    : true,
         "strictNullChecks" : true,
         "removeComments"   : true,
-        "declaration"      : false,
+        "declaration"      : true,
         "module"           : "commonjs",
+        "moduleResolution" : "node",
         "target"           : "es5",
         "jsx"              : "react"
     },
     "include": [
-        "src/**/*.tsx",
-        "src/**/*.ts", "typings/index.d.ts"
-    ],
-    "files" : [
-        "src/index.d.ts"
+        "src"
     ],
     "exclude" : [
         "node_modules"

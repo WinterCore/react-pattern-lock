@@ -1,6 +1,12 @@
 import * as React from "react";
 
 import { getAngle, getDistance, getConnectorPoint } from "../utils";
+import { Point } from "../types";
+
+type Connector = {
+    from : Point;
+    to   : Point;
+};
 
 interface ConnectorsProps {
     path                    : number[];
@@ -80,55 +86,6 @@ const Connectors: React.FunctionComponent<ConnectorsProps> = ({
                     />
                 ))
             }
-            {/* {
-                path.map((x, i) => {
-                    const toMouse = i === path.length - 1;
-                    if () return null;
-
-                    const fr = this.getExactPointPosition(this.state.points[x]);
-                    let to = null;
-                    if (toMouse) {
-                        to = {
-                            x : this.state.position.x,
-                            y : this.state.position.y - (this.props.connectorWidth / 2)
-                        };
-                    } else {
-                        to = this.getExactPointPosition(this.state.points[arr[i + 1]]);
-                    }
-                    return (
-                        <div
-                            className="react-pattern-lock__connector"
-                            key={ i }
-                            style={{
-                                background   : this.getColor(this.props.connectorColor),
-                                transform    : `rotate(${getAngle(fr, to)}rad)`,
-                                width        : `${getDistance(fr, to)}px`,
-                                left         : `${fr.x}px`,
-                                top          : `${fr.y}px`,
-                                height       : this.props.connectorWidth,
-                                borderRadius : this.props.connectorRoundedCorners
-                                    ? Math.round(this.props.connectorWidth / 2)
-                                    : 0
-                            }}
-                        />
-                    );
-                })
-            } */}
-            {/* <div
-                className="react-pattern-lock__connector"
-                key={ i }
-                style={{
-                    background   : this.getColor(this.props.connectorColor),
-                    transform    : `rotate(${getAngle(fr, to)}rad)`,
-                    width        : `${getDistance(fr, to)}px`,
-                    left         : `${fr.x}px`,
-                    top          : `${fr.y}px`,
-                    height       : connectorThickness,
-                    borderRadius : connectorRoundedCorners
-                        ? Math.floor(this.props.connectorWidth / 2)
-                        : 0
-                }}
-            /> */}
         </div>
     );
 };
