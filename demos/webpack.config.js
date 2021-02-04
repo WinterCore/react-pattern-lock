@@ -3,7 +3,7 @@ const WebpackBuildNotifierPlugin = require("webpack-build-notifier");
 
 module.exports = {
     entry   : path.resolve(__dirname, "src", "app.tsx"),
-    devtool : "sourcemap",
+    devtool : "source-map",
     resolve : {
         extensions : [".ts", ".tsx", ".js", ".json"],
         alias      : {
