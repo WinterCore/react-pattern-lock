@@ -160,7 +160,7 @@ const PatternLock: React.FunctionComponent<PatternLockProps> = ({
 
     const onResize = () => {
         const { top, left } = wrapperRef.current.getBoundingClientRect();
-        setPosition({ x : left, y : top });
+        setPosition({ x : left + window.scrollX, y : top + window.scrollY });
     };
     
     React.useEffect(() => {
@@ -205,8 +205,8 @@ const PatternLock: React.FunctionComponent<PatternLockProps> = ({
         <>
             <Styles />
             <div
-                className    = { classnames([ "react-pattern-lock__pattern-wrapper", { error, success, disabled }, className]) }
-                style        = {{ width, height, ...style }}
+                className    = { classnames([ "react-pattern-lock__pattern-wrapper", { error, success, disabled }, className ]) }
+                style        = {{ ...style, width, height }}
                 onMouseDown  = { onHold }
                 onTouchStart = { onTouch }
                 ref          = { wrapperRef }
