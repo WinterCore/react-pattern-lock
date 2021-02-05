@@ -16,10 +16,13 @@ class Demo extends React.Component {
 	errorTimeout: number = 0;
 
 	componentDidMount() {
-		window.addEventListener("keydown", ({ which }) => {
-			if (which === 38) {
+		window.addEventListener("keydown", (e) => {
+			const { key } = e;
+			if (key === "ArrowUp") {
+				e.preventDefault();
 				this.setState({ size : this.state.size >= 10 ? 10 : this.state.size + 1 });
-			} else if (which === 40) {
+			} else if (key === "ArrowDown") {
+				e.preventDefault();
 				this.setState({ size : this.state.size > 3 ? this.state.size - 1 : 3 });
 			}
 		});
