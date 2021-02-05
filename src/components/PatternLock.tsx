@@ -180,9 +180,13 @@ const PatternLock: React.FunctionComponent<PatternLockProps> = ({
         window.addEventListener("resize", onResize);
         return () => window.removeEventListener("resize", onResize);
     }, []);
+
     React.useEffect(() => {
-        setPoints(getPoints({ pointActiveSize, height, size }));
-        onResize();
+        const rafId = window.requestAnimationFrame(() => {
+            setPoints(getPoints({ pointActiveSize, height, size }));
+            onResize();
+        });
+        return () => window.cancelAnimationFrame(rafId);
     }, [height, size]);
 
     React.useEffect(() => {
@@ -212,7 +216,7 @@ const PatternLock: React.FunctionComponent<PatternLockProps> = ({
                 ref          = { wrapperRef }
             >
                 {
-                    points.map((_, i) => (
+                    Array.from({ length: size ** 2 }).map((_, i) => (
                         <Point
                             key             = { i }
                             index           = { i }
