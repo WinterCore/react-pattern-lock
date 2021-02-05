@@ -35,10 +35,10 @@ const Connectors: React.FunctionComponent<ConnectorsProps> = ({
         setMousePosition,
         setTouchPosition
     } = React.useMemo(() => ({
-        setMousePosition : ({ clientX, clientY }: MouseEvent) : void =>
-            setMouse({ x : clientX - wrapperPosition.x, y : clientY - wrapperPosition.y + window.scrollY }),
-        setTouchPosition : ({ touches }: TouchEvent)          : void =>
-            setMouse({ x: touches[0].clientX - wrapperPosition.x, y : touches[0].clientY - wrapperPosition.y + window.scrollX })
+        setMousePosition: ({ clientX, clientY }: MouseEvent) : void =>
+            setMouse({ x: clientX - wrapperPosition.x + window.scrollX, y : clientY - wrapperPosition.y + window.scrollY }),
+        setTouchPosition: ({ touches }: TouchEvent): void =>
+            setMouse({ x: touches[0].clientX - wrapperPosition.x + window.scrollX, y : touches[0].clientY - wrapperPosition.y + window.scrollY })
     }), [wrapperPosition]);
 
     React.useEffect(() => {
