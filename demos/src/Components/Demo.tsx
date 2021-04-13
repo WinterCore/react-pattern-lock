@@ -1,7 +1,7 @@
 import * as React from "react";
 import { hot } from "react-hot-loader/root";
 
-import PatternLock from "../../../lib/index.js";
+import PatternLock from "../../../src/index";
 
 class Demo extends React.Component {
 	state = {

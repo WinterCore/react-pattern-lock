@@ -8,6 +8,6 @@
         "jsx"           : "react"
     },
     "include": [
-        "./demos/src/app.tsx"
+        "./src/app.tsx"
     ]
 }
