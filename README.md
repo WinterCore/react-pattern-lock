@@ -1,8 +1,11 @@
 # React-Pattern-Lock
+
+[![Lint & Test](https://github.com/WinterCore/react-pattern-lock/actions/workflows/integration.yml/badge.svg)](https://github.com/WinterCore/react-pattern-lock/actions/workflows/integration.yml)
 ### Android's pattern lock
 * Supports multiple sizes. eg : 2x2, 3x3, 4x4 -- 15x15.
 * Supports touch screens.
 * Many options to customize the input.
+
 
 [![Edit n5j7knjo54](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/n5j7knjo54)
 
