@@ -1,10 +1,12 @@
 import { useRef, useEffect } from "react";
 import { Point } from "./types";
 
-export const usePrevious = (val: any) => {
-  const ref = useRef();
-  useEffect(() => ref.current = val, [val]);
-  return ref.current;
+export const usePrevious = <T>(val: T): T | undefined => {
+    const ref = useRef<T>();
+    useEffect(() => {
+        ref.current = val
+    }, [val]);
+    return ref.current;
 };
 
 export const getPoints = ({
@@ -49,11 +51,11 @@ export const getConnectorPoint = (
     y : p.y + Math.floor(pointActiveSize / 2) - Math.floor(connectorThickness / 2)
 });
 
-export const exclusiveRange = (start: number, stop: number): number[] => {
-    if (start === stop) return [];
-    start = start > stop ? start - 1 : start + 1;
+export const exclusiveRange = (rawStart: number, stop: number): number[] => {
+    if (rawStart === stop) return [];
+    const start = rawStart > stop ? rawStart - 1 : rawStart + 1;
     const step = start > stop ? -1 : 1;
-    return Array.from({ length: Math.abs(start - stop) })
+    return Array.from({ length : Math.abs(start - stop) })
         .map((_, i) => start + i * step);
 }
 
