@@ -129,7 +129,8 @@ const PatternLock: React.FunctionComponent<PatternLockProps> = ({
     const [initialMousePosition, setInitialMousePosition] = React.useState<PointType | null>(null);
 
     const checkCollision = ({ x, y }: PointType): void => {
-        const mouse = { x : x - position.x + window.scrollX, y : y - position.y + window.scrollY }; // relative to the container as opposed to the screen
+        const { top, left } = wrapperRef.current.getBoundingClientRect();
+        const mouse = { x : x - left, y : y - top }; // relative to the container as opposed to the screen
         const index = getCollidedPointIndex(mouse, points, pointActiveSize);
         if (~index && path[path.length - 1] !== index) {
             if (allowOverlapping || path.indexOf(index) === -1) {
@@ -144,23 +145,26 @@ const PatternLock: React.FunctionComponent<PatternLockProps> = ({
         }
     };
 
+    const onResize = () => {
+        const { top, left } = wrapperRef.current.getBoundingClientRect();
+        setPosition({ x : left + window.scrollX, y : top + window.scrollY });
+        return [top, left]
+    };
+
     const onHold = ({ clientX, clientY }: React.MouseEvent) => {
         if (disabled) return;
-        setInitialMousePosition({ x : clientX - position.x + window.scrollX, y : clientY - position.y + window.scrollY });
+        const [top, left] = onResize();  // retrieve boundingRect and force setPosition
+        setInitialMousePosition({ x : clientX - left, y : clientY - top });
         setIsMouseDown(true);
         checkCollision({ x : clientX, y : clientY });
     };
 
     const onTouch = ({ touches }: React.TouchEvent) => {
         if (disabled) return;
-        setInitialMousePosition({ x : touches[0].clientX - position.x + window.scrollX, y : touches[0].clientY - position.y + window.scrollY });
+        const [top, left] = onResize();  // retrieve boundingRect and force setPosition
+        setInitialMousePosition({ x : touches[0].clientX - left, y : touches[0].clientY - top });
         setIsMouseDown(true);
         checkCollision({ x: touches[0].clientX, y : touches[0].clientY });
-    };
-
-    const onResize = () => {
-        const { top, left } = wrapperRef.current.getBoundingClientRect();
-        setPosition({ x : left + window.scrollX, y : top + window.scrollY });
     };
 
     React.useEffect(() => {
@@ -180,14 +184,6 @@ const PatternLock: React.FunctionComponent<PatternLockProps> = ({
         window.addEventListener("resize", onResize);
         return () => window.removeEventListener("resize", onResize);
     }, []);
-
-    React.useEffect(() => {
-        const onScroll = (() => onResize())
-        window.addEventListener("scroll", onScroll);
-        return () => {
-            window.removeEventListener("scroll", onScroll);
-        };
-    }, [])
 
     React.useEffect(() => {
         const rafId = window.requestAnimationFrame(() => {
