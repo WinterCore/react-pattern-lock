@@ -162,7 +162,7 @@ const PatternLock: React.FunctionComponent<PatternLockProps> = ({
         const { top, left } = wrapperRef.current.getBoundingClientRect();
         setPosition({ x : left + window.scrollX, y : top + window.scrollY });
     };
-    
+
     React.useEffect(() => {
         if (!isMouseDown) return;
         const onMouseMove = ({ clientX, clientY }: MouseEvent): void => checkCollision({ x : clientX, y : clientY });
@@ -180,6 +180,14 @@ const PatternLock: React.FunctionComponent<PatternLockProps> = ({
         window.addEventListener("resize", onResize);
         return () => window.removeEventListener("resize", onResize);
     }, []);
+
+    React.useEffect(() => {
+        const onScroll = (() => onResize())
+        window.addEventListener("scroll", onScroll);
+        return () => {
+            window.removeEventListener("scroll", onScroll);
+        };
+    }, [])
 
     React.useEffect(() => {
         const rafId = window.requestAnimationFrame(() => {
@@ -229,7 +237,7 @@ const PatternLock: React.FunctionComponent<PatternLockProps> = ({
                     ))
                 }
                 {
-                    !invisible && points.length && 
+                    !invisible && points.length &&
                         <Connectors
                             initialMousePosition    = { initialMousePosition }
                             wrapperPosition         = { position }
@@ -240,7 +248,7 @@ const PatternLock: React.FunctionComponent<PatternLockProps> = ({
                             connectorThickness      = { connectorThickness }
                         />
                 }
-                
+
             </div>
         </>
     );
