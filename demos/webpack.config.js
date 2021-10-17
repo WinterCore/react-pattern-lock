@@ -37,10 +37,11 @@ module.exports = {
         filename   : "bundle.min.js"
     },
     devServer: {
-        publicPath         : "/",
-        contentBase        : path.resolve(__dirname, "public"),
-        port               : 8080,
-        overlay            : true
+        static     : {
+            directory: path.resolve(__dirname, "public"),
+            publicPath: "/",
+        },
+        port       : 8080,
     },
     plugins : [
         new WebpackBuildNotifierPlugin({

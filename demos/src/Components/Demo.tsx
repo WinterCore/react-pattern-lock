@@ -1,11 +1,19 @@
 import * as React from "react";
-import { hot } from "react-hot-loader/root";
 
 import PatternLock from "../../../src/index";
 
-class Demo extends React.Component {
+type IDemoState = {
+    path      : number[],
+    isLoading : boolean,
+    error     : boolean,
+    success   : boolean,
+    disabled  : boolean,
+    size      : number,
+}
+
+class Demo extends React.Component<{}, IDemoState> {
 	state = {
-		path      : [],
+		path      : [] as number[],
 		isLoading : false,
 		error     : false,
 		success   : false,
@@ -63,6 +71,7 @@ class Demo extends React.Component {
 
 	render() {
 		const { size, path, disabled, success, error, isLoading } = this.state;
+
 		return (
 			<React.Fragment>
 				<div className="center">
@@ -94,4 +103,4 @@ class Demo extends React.Component {
 	}
 }
 
-export default hot(Demo);
+export default Demo;

@@ -1,7 +1,7 @@
-import * as React      from "react";
-import * as classnames from "classnames";
-import * as PropTypes  from "prop-types";
+import * as React            from "react";
+import * as PropTypes        from "prop-types";
 import { createGlobalStyle } from "styled-components";
+import classnames            from "classnames";
 
 import Point      from "./Point";
 import Connectors from "./Connectors";
